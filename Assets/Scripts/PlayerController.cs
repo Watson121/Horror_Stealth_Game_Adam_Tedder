@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour
 
         playerObj = this.gameObject.transform;
 
-        //hiddenText = GameObject.Find("HiddenText").GetComponent<TextMeshProUGUI>();
+        hiddenText = GameObject.Find("HiddenText").GetComponent<TextMeshProUGUI>();
     }
 
     private void Movement()

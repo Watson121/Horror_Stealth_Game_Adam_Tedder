@@ -37,7 +37,7 @@ namespace BehaviourTree
         // Node Consturctor so that it can have child nodes
         public Node(List<Node> children)
         {
-            foreach(Node child in childrenNodes)
+            foreach(Node child in children)
             {
                 Attach(child);
             }
@@ -83,7 +83,6 @@ namespace BehaviourTree
 
         public bool ClearData(string key)
         {
-            object value = null;
             if (_dataContext.ContainsKey(key))
             {
                 _dataContext.Remove(key);
