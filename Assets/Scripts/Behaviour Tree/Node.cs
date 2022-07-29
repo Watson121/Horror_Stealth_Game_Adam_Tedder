@@ -1,6 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/// <summary>
+/// Base Node Class
+/// </summary>
+
 namespace BehaviourTree
 {
 
