@@ -19,10 +19,10 @@ namespace BehaviourTree
 
         public override NodeState Evaluate()
         {
-     
-
             foreach (Node node in childrenNodes)
             {
+     
+
                 switch (node.Evaluate())
                 {
                     case NodeState.FAILURE:
