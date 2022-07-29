@@ -2,16 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
+
+    #region Properties
 
     public bool Hidden
     {
         get { return hidden; }
     }
 
-    private Transform playerObj;
+    private bool hidden = false;
+    #endregion
 
     [Header("Player Settings")]
     #region Player Inputs
@@ -19,6 +23,7 @@ public class PlayerController : MonoBehaviour
     private PlayerInput playerInput;
     private PlayerControls playerControls;
     private CharacterController characterController;
+    private Transform playerObj;
 
     public float playerSpeed = 10.0f;
     
@@ -37,7 +42,8 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    public bool hidden = false;
+    private TextMeshProUGUI hiddenText;
+
 
     private void Awake()
     {
@@ -48,6 +54,8 @@ public class PlayerController : MonoBehaviour
         playerControls.Player.Enable();
 
         playerObj = this.gameObject.transform;
+
+        hiddenText = GameObject.Find("HiddenText").GetComponent<TextMeshProUGUI>();
     }
 
     private void Movement()
@@ -55,8 +63,6 @@ public class PlayerController : MonoBehaviour
         // Getting Input and Mouse Vectors
         Vector2 inputVector = playerControls.Player.Movement.ReadValue<Vector2>();
         Vector2 mouseVector = Mouse.current.delta.ReadValue();
-
-     
 
         // Setting the of player
         playerObj.rotation *= Quaternion.Euler(0, mouseVector.x * 30.0f * Time.smoothDeltaTime, 0);
@@ -76,18 +82,7 @@ public class PlayerController : MonoBehaviour
         CameraRotX -= Input.GetAxisRaw("Mouse Y") * mouseSensivity * Time.smoothDeltaTime;
         CameraRotX = Mathf.Clamp(CameraRotX, -40, 40);
 
-        //CameraRotY += Input.GetAxisRaw("Mouse X") * mouseSensivity * Time.deltaTime;
-
         playerCamera.rotation = Quaternion.Euler(CameraRotX, playerObj.eulerAngles.y, 0);
-
-
-        Debug.Log(playerCamera.eulerAngles.x);
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
     }
 
     // Update is called once per frame
@@ -96,12 +91,12 @@ public class PlayerController : MonoBehaviour
         Movement();
     }
 
-
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "HiddenZone")
         {
             hidden = true;
+            SettingHiddenText("Hidden");
         }
     }
 
@@ -110,6 +105,14 @@ public class PlayerController : MonoBehaviour
         if (other.tag == "HiddenZone")
         {
             hidden = false;
+            SettingHiddenText("Unhidden");
         }
     }
+
+    // Setting the Hidden Text
+    private void SettingHiddenText(string text)
+    {
+        hiddenText.text = text;
+    }
+
 }
