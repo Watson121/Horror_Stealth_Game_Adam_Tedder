@@ -14,23 +14,47 @@ public class CheckEnemyInFOVRange : Node
 
     public override NodeState Evaluate()
     {
-        Debug.Log("Hello");
+      
 
         object t = GetData("target");
-        if(t == null)
+        Collider[] colliders;
+
+        if (t == null)
         {
-            Collider[] colliders = Physics.OverlapSphere(_transform.position, 6f, _playerLayerMask.value);
+            colliders = Physics.OverlapSphere(_transform.position, MonsterBT.detectionRange, _playerLayerMask.value);
 
             if(colliders.Length > 0)
             {
                 parent.parent.SetData("target", colliders[0].transform);
 
-                state = NodeState.SUCCESS;
+                Transform target = (Transform)GetData("target");
+                PlayerController player = target.GetComponent<PlayerController>();
+
+                if(player.Hidden == true)
+                {
+                    state = NodeState.SUCCESS;
+                }
+                else if (player.Hidden == false)
+                {
+                    state = NodeState.FAILURE;
+                }
+
                 return state;
             }
+        
 
             state = NodeState.FAILURE;
             return state;
+        }
+        else if(t != null)
+        {
+            Transform target = (Transform)GetData("target");
+
+            if(Vector3.Distance(_transform.position, target.position) > MonsterBT.detectionRange)
+            {
+                state = NodeState.FAILURE;
+                return state;
+            }
         }
 
         state = NodeState.SUCCESS;

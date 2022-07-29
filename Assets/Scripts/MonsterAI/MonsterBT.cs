@@ -6,8 +6,11 @@ public class MonsterBT : Tree
 {
     public NavMeshAgent navMeshAgent;
     
+    
     public UnityEngine.Transform[] waypoints;
     public static float speed = 3f;
+    public static float chaseSpeed = 5f;
+    public static float detectionRange = 10f;
 
     protected override Node SetupTree()
     {

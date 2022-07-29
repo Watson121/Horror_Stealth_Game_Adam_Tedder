@@ -10,29 +10,35 @@ public class Task_Chase : Node
 
     private Transform _transform;
     private NavMeshAgent navAgent;
-
+    private PlayerController playerController;
 
     public Task_Chase(Transform transform, NavMeshAgent agent)
     {
         this._transform = transform;
         this.navAgent = agent;
-        this.navAgent.speed = MonsterBT.speed;
+        this.navAgent.speed = MonsterBT.chaseSpeed;
     }
 
     public override NodeState Evaluate()
     {
 
         Transform target = (Transform)GetData("target");
+        playerController = target.GetComponent<PlayerController>();
 
-        Debug.Log(Vector3.Distance(navAgent.nextPosition, target.position));
-        if (Vector3.Distance(navAgent.nextPosition, target.position) > 1.5f)
+        if (target != null && playerController.Hidden != true)
         {
-            navAgent.SetDestination(target.position);
-        }
-   
+            if (Vector3.Distance(navAgent.nextPosition, target.position) > 1.5f)
+            {
+                navAgent.SetDestination(target.position);
+            }
 
-        state = NodeState.RUNNING;
+            state = NodeState.RUNNING;
+            return state;
+        }
+
+        state = NodeState.FAILURE;
         return state;
+        
     }
 
 }

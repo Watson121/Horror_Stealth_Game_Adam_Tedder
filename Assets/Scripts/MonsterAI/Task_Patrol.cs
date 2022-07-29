@@ -41,11 +41,10 @@ public class Task_Patrol : Node
 
             Transform wp = _waypoints[currentWayPointIndex];
 
-            Debug.Log(Vector3.Distance(navAgent.nextPosition, wp.position));
+            
 
             if (Vector3.Distance(navAgent.nextPosition, wp.position) < 1.5f)
             {
-                //_transform.position = wp.position;
                 waitCounter = 0f;
                 waiting = true;
 
@@ -54,9 +53,6 @@ public class Task_Patrol : Node
             else
             {
                 navAgent.SetDestination(wp.position);
-                
-                //_transform.position = Vector3.MoveTowards(_transform.position, wp.position, MonsterBT.speed * Time.deltaTime);
-                //_transform.LookAt(wp.position);
             }
         }
 
