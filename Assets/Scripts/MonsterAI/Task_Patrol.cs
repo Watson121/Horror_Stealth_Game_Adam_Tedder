@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
 using BehaviourTree;
+
+/// <summary>
+/// Patrol around a set of waypoints in the map
+/// </summary>
 
 public class Task_Patrol : Node
 {
@@ -13,7 +16,6 @@ public class Task_Patrol : Node
     private NavMeshAgent navAgent;
 
     private int currentWayPointIndex = 0;
-    private float speed = 2f;
 
     private float waitTime = 1.0f;
     private float waitCounter = 0f;
