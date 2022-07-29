@@ -41,8 +41,6 @@ public class Task_Patrol : Node
 
             Transform wp = _waypoints[currentWayPointIndex];
 
-            
-
             if (Vector3.Distance(navAgent.nextPosition, wp.position) < 1.5f)
             {
                 waitCounter = 0f;
