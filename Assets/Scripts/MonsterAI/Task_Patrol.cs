@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 using BehaviourTree;
 
@@ -9,6 +10,7 @@ public class Task_Patrol : Node
 
     private Transform _transform;
     private Transform[] _waypoints;
+    private NavMeshAgent navAgent;
 
     private int currentWayPointIndex = 0;
     private float speed = 2f;
@@ -17,10 +19,12 @@ public class Task_Patrol : Node
     private float waitCounter = 0f;
     private bool waiting = false;
 
-    public Task_Patrol(Transform transform, Transform[] waypoints)
+    public Task_Patrol(Transform transform, Transform[] waypoints, NavMeshAgent agent)
     {
         this._transform = transform;
         this._waypoints = waypoints;
+        this.navAgent = agent;
+        this.navAgent.speed = MonsterBT.speed;
     }
 
     public override NodeState Evaluate()
@@ -36,9 +40,12 @@ public class Task_Patrol : Node
         else {
 
             Transform wp = _waypoints[currentWayPointIndex];
-            if (Vector3.Distance(_transform.position, wp.position) < 0.01f)
+
+            Debug.Log(Vector3.Distance(navAgent.nextPosition, wp.position));
+
+            if (Vector3.Distance(navAgent.nextPosition, wp.position) < 1.5f)
             {
-                _transform.position = wp.position;
+                //_transform.position = wp.position;
                 waitCounter = 0f;
                 waiting = true;
 
@@ -46,8 +53,10 @@ public class Task_Patrol : Node
             }
             else
             {
-                _transform.position = Vector3.MoveTowards(_transform.position, wp.position, speed * Time.deltaTime);
-                _transform.LookAt(wp.position);
+                navAgent.SetDestination(wp.position);
+                
+                //_transform.position = Vector3.MoveTowards(_transform.position, wp.position, MonsterBT.speed * Time.deltaTime);
+                //_transform.LookAt(wp.position);
             }
         }
 

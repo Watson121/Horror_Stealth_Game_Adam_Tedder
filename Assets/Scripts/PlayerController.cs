@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour
 
         playerObj = this.gameObject.transform;
 
-        hiddenText = GameObject.Find("HiddenText").GetComponent<TextMeshProUGUI>();
+        //hiddenText = GameObject.Find("HiddenText").GetComponent<TextMeshProUGUI>();
     }
 
     private void Movement()
@@ -74,7 +74,7 @@ public class PlayerController : MonoBehaviour
         // Position of character
         playerPosition = new Vector3(inputVector.x * playerSpeed, 0, inputVector.y * playerSpeed);
         playerPosition = transform.TransformDirection(playerPosition);
-        characterController.Move(playerPosition * Time.deltaTime);
+        characterController.Move(playerPosition * Time.smoothDeltaTime);
     }
 
     private void SetCamera()
